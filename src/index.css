@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+/* Dark mode is toggled by a `dark` class on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Brand accents (same in light and dark) */
+@theme {
+  --color-brand: #356AE6;
+  --color-teal: #16A6A1;
+  --color-green: #20A66B;
+  --color-amber: #F2A93B;
+  --color-coral: #E65B65;
+  --color-violet: #8066D9;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Neutral colours switch with the theme via CSS variables */
+@theme inline {
+  --color-app: var(--app-bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+}
+
+:root {
+  --app-bg: #F5F7FA;
+  --surface: #FFFFFF;
+  --ink: #202A3A;
+  --muted: #667085;
+  --line: #E4E8EF;
+  color-scheme: light;
+}
+
+.dark {
+  --app-bg: #12151A;
+  --surface: #1B1F26;
+  --ink: #E9EDF3;
+  --muted: #98A2B3;
+  --line: #2A303A;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--app-bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* Small set of shared building blocks, reused across all pages */
+@layer components {
+  .card {
+    @apply rounded-xl border border-line bg-surface shadow-sm;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand/90 disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-line bg-surface px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-brand/5 disabled:pointer-events-none disabled:opacity-50;
+  }
+}
