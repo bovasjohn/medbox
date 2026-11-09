@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
+import { DataProvider } from '../../context/DataContext'
 import Sidebar from './Sidebar'
 import Topbar from './Topbar'
 import MobileNav from './MobileNav'
+import OfflineBanner from './OfflineBanner'
 
 const KEY = 'mm-sidebar-collapsed'
 
@@ -26,15 +28,18 @@ export default function AppShell() {
   }
 
   return (
-    <div className="min-h-dvh">
-      <Sidebar collapsed={collapsed} onToggle={toggle} />
-      <div className={`transition-[padding] duration-200 ${collapsed ? 'lg:pl-[76px]' : 'lg:pl-64'}`}>
-        <Topbar />
-        <main className="mx-auto w-full max-w-7xl px-4 py-6 pb-28 sm:px-6 lg:pb-10">
-          <Outlet />
-        </main>
+    <DataProvider>
+      <div className="min-h-dvh">
+        <Sidebar collapsed={collapsed} onToggle={toggle} />
+        <div className={`transition-[padding] duration-200 ${collapsed ? 'lg:pl-[76px]' : 'lg:pl-64'}`}>
+          <Topbar />
+          <OfflineBanner />
+          <main className="mx-auto w-full max-w-7xl px-4 py-6 pb-28 sm:px-6 lg:pb-10">
+            <Outlet />
+          </main>
+        </div>
+        <MobileNav />
       </div>
-      <MobileNav />
-    </div>
+    </DataProvider>
   )
 }

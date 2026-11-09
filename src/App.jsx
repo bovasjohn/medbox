@@ -7,7 +7,9 @@ import SetupNeeded from './pages/SetupNeeded'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Devices from './pages/Devices'
+import DeviceDetail from './pages/DeviceDetail'
 import Organizations from './pages/Organizations'
+import OrganizationDetail from './pages/OrganizationDetail'
 import PpmReports from './pages/PpmReports'
 import Statistics from './pages/Statistics'
 import Settings from './pages/Settings'
@@ -25,7 +27,9 @@ export default function App() {
             <Route element={<AppShell />}>
               <Route index element={<Dashboard />} />
               <Route path="devices" element={<Devices />} />
+              <Route path="devices/:id" element={<DeviceDetail />} />
               <Route path="organizations" element={<Organizations />} />
+              <Route path="organizations/:id" element={<OrganizationDetail />} />
               <Route path="ppm-reports" element={<PpmReports />} />
               <Route path="statistics" element={<Statistics />} />
               <Route path="settings" element={<Settings />} />

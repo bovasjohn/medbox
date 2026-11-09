@@ -53,6 +53,14 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     await supabase.auth.signOut()
+    // Do not leave saved offline data behind on a shared device.
+    try {
+      Object.keys(localStorage)
+        .filter((key) => key.startsWith('mm-cache-'))
+        .forEach((key) => localStorage.removeItem(key))
+    } catch {
+      /* ignore */
+    }
   }
 
   return <AuthContext.Provider value={{ user, loading, login, logout }}>{children}</AuthContext.Provider>

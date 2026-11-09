@@ -8,11 +8,27 @@ Stack: React + Vite, Tailwind CSS v4, Supabase (Google login + Postgres), Rechar
 | Phase | Module | Status |
 |-------|--------|--------|
 | 1 | Setup, theme, Google login, app shell, navigation, database schema | Done |
-| 2 | Organizations | Next |
-| 3 | Devices and accessories | |
-| 4 | PPM inspections and PDF reports | |
-| 5 | Dashboard and Statistics | |
-| 6 | PWA offline handling and deployment polish | |
+| 2 | Organizations | Done |
+| 3 | Devices and accessories | Done |
+| 4 | PPM inspections (reports viewed on screen) | Done |
+| 5 | Dashboard and Statistics | Done |
+| 6 | PWA offline handling | Done (read-only offline) |
+| - | PDF reports (download and print) | Skipped for now, on request |
+
+## Offline behaviour
+
+- The last loaded data is saved on the device, so the app opens and shows it without a connection.
+  A banner says you are offline and when the data was last updated.
+- Changes cannot be saved offline. Save buttons are disabled and a message says so; whatever you typed stays
+  in the form until you reconnect. Nothing is queued silently, so there are no hidden unsaved changes.
+- Data refreshes automatically when the connection returns. Signing out clears the saved copy.
+
+## Rules the app follows
+
+- A device is "due soon" or an accessory "expiring soon" within 30 days.
+- "PPM up to date" on Statistics is the share of devices that are not overdue and have a next PPM date.
+- Saving a PPM report never changes older reports. It sets the device's last and next PPM dates only when the
+  inspection is the device's most recent one.
 
 ## 1. Supabase setup (one time)
 
@@ -74,10 +90,11 @@ Cloudflare Pages serves `index.html` for unknown paths automatically, so refresh
 src/
   App.jsx               routes
   nav.js                navigation items (sidebar, mobile bar)
-  lib/supabase.js       Supabase client
-  context/              AuthContext, ThemeContext
-  components/layout/    AppShell, Sidebar, Topbar, MobileNav, Logo
-  components/ui/        PageHeader, Spinner, PlaceholderPage
+  lib/                  supabase client, dates, status rules, stats, small helpers
+  context/              AuthContext, ThemeContext, DataContext (loading, saving, offline copy)
+  components/layout/    AppShell, Sidebar, Topbar, MobileNav, OfflineBanner, Logo
+  components/ui/        Modal, Field, StatCard, badges, ChartCard and other shared pieces
+  features/             organizations, devices (+accessories), ppm, charts
   pages/                one file per screen
 supabase/schema.sql     tables, indexes and security policies
 ```
